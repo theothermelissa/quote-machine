@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { black, charcoal, darkgray, gray, lightgray } from './Colors';
 import beachBackground from '../images/beachBackground.jpeg';
+import NewQuoteButton from './NewQuoteButton';
 
 
 const BodyContainer = styled.div`
@@ -23,7 +24,7 @@ const Polaroid = styled.div`
   padding: 5px 5px 5px 5px;
   margin: 0px;
   background-color: white;
-  box-shadow: 7px 5px 15px black;
+  box-shadow: 7px 5px 5px;
   `;
 
 const QuoteBox = styled.div`
@@ -56,7 +57,7 @@ const Quote = styled.p`
   background-color: transparent;
   font-weight: bold;
   font-size: 1.3em;
-  text-shadow: 3px 3px 5px black;
+  text-shadow: 0px 0px 7px black;
 `;
 
 const CitationBox = styled.div`
@@ -98,6 +99,7 @@ class BodyContent extends Component {
             <Citation>--Whatsisname</Citation>
           </CitationBox>
         </Polaroid>
+        <NewQuoteButton />
       </BodyContainer>
     )
   }
