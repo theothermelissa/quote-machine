@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { black, charcoal, darkgray, gray, lightgray } from './Colors';
 import beachBackground from '../images/beachBackground.jpeg';
-import NewQuoteButton from './NewQuoteButton';
-
+import archBackground from '../images/archBackground.jpg';
+import mountainLakeBackground from '../images/mountainLakeBackground.jpg';
+import NewButton from './NewButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
 const BodyContainer = styled.div`
   display: flex;
@@ -22,10 +24,41 @@ const Polaroid = styled.div`
   width: 250px;
   height: 292;
   padding: 5px 5px 5px 5px;
-  margin: 0px;
+  margin: 0px 0px 50px 0px;
   background-color: white;
   box-shadow: 7px 5px 5px;
   `;
+  
+const backgrounds = [
+  {
+    image: beachBackground,
+    alt: "Beach"},
+  {
+    image: archBackground,
+    alt: "Arch"
+  },
+  {
+    image: mountainLakeBackground,
+    alt: "Mountain Lake"
+  },
+];
+
+// const icons = [
+//   {
+//     twitter: 
+//   }
+// ]
+
+const quotes = [
+  {
+    statement: "I want it all, and I want it now.",
+    speaker: "--Everyone"
+  },
+  {
+    statement: "Potato potato potato potato",
+    speaker: "--Harley"
+  }
+];
 
 const QuoteBox = styled.div`
   display: flex;
@@ -40,16 +73,6 @@ const QuoteBox = styled.div`
   padding: 0px;
   overflow: hidden;
   `;
-  
-  const BackgroundImage = styled.img`
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0px;
-    padding: 0px;
-    width: auto;
-    height: inherit;
-  `;
 
 const Quote = styled.p`
   position: absolute;
@@ -58,6 +81,16 @@ const Quote = styled.p`
   font-weight: bold;
   font-size: 1.3em;
   text-shadow: 0px 0px 7px black;
+  `;
+
+const BackgroundImage = styled.img`
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+  height: inherit;
 `;
 
 const CitationBox = styled.div`
@@ -67,39 +100,61 @@ const CitationBox = styled.div`
   height: 60px;
   margin: 0px;
   padding: 0px;
-`;
+  `;
 
 const Citation = styled.h2`
   font-style: italic;
   color: ${darkgray};
+  `;
+
+const ShareBox = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  height: 30px;
+  align-items: flex-start;
 `;
 
-
+const ShareIcon = styled.img`
+  margin: 0px;
+  padding: 0px;
+  height: inherit;
+  width: auto;
+`;
 
 class BodyContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quote: 1,
-      speaker: 1,
-      background: 1
+      background: 2
     };
   }
 
   render() {
+    const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
+    const randomQuote = () => Math.floor(Math.random() * quotes.length);
+    console.log("RandomBackground: ", randomBackground());
+    const setBackground = () => this.setState({background: randomBackground()});
+    const setQuote = () => this.setState({quote: randomQuote()});
     return (
       <BodyContainer>
-        {/* <img src={beachBackground} alt='Beach' /> */}
+        <ShareBox>
+          <ShareIcon />
+        </ShareBox>
         <Polaroid>
           <QuoteBox>
-            <BackgroundImage src={beachBackground} alt="Beach" />
-            <Quote>"I don't know; where do you want to go?"</Quote>
+            <BackgroundImage 
+              {...this.state} 
+              src={backgrounds[this.state.background].image} 
+              alt={backgrounds[this.state.background].alt} />
+            <Quote>{quotes[this.state.quote].statement}</Quote>
           </QuoteBox>
           <CitationBox>
-            <Citation>--Whatsisname</Citation>
+            <Citation>{quotes[this.state.quote].speaker}</Citation>
           </CitationBox>
         </Polaroid>
-        <NewQuoteButton />
+        <NewButton onClick={setQuote} >New Quote</NewButton>
+        <NewButton onClick={setBackground} >New Background</NewButton>
       </BodyContainer>
     )
   }
