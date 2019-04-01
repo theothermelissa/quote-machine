@@ -1,12 +1,12 @@
-import React from 'react';
-
-const QuoteList = {
-  1: {
-    statement: "Nobody cares",
-    speaker: "Everyone"
+const quoteList = [
+  {
+    statement: "I want it all, and I want it now.",
+    speaker: "--Everyone"
   },
-  2: {
+  {
     statement: "Potato potato potato potato",
-    speaker: "Harley"
+    speaker: "--Harley"
   }
-}
+];
+
+export default quoteList;

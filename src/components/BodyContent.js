@@ -5,6 +5,7 @@ import beachBackground from '../images/beachBackground.jpeg';
 import archBackground from '../images/archBackground.jpg';
 import mountainLakeBackground from '../images/mountainLakeBackground.jpg';
 import NewButton from './NewButton';
+import quoteList from './quoteList';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
 const BodyContainer = styled.div`
@@ -49,16 +50,7 @@ const backgrounds = [
 //   }
 // ]
 
-const quotes = [
-  {
-    statement: "I want it all, and I want it now.",
-    speaker: "--Everyone"
-  },
-  {
-    statement: "Potato potato potato potato",
-    speaker: "--Harley"
-  }
-];
+
 
 const QuoteBox = styled.div`
   display: flex;
@@ -132,8 +124,8 @@ class BodyContent extends Component {
 
   render() {
     const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
-    const randomQuote = () => Math.floor(Math.random() * quotes.length);
-    // console.log("RandomBackground: ", randomBackground());
+    const randomQuote = () => Math.floor(Math.random() * quoteList.length);
+    console.log("RandomBackground: ", randomBackground());
     const setBackground = () => this.setState({background: randomBackground()});
     const setQuote = () => this.setState({quote: randomQuote()});
     return (
@@ -147,10 +139,10 @@ class BodyContent extends Component {
               {...this.state} 
               src={backgrounds[this.state.background].image} 
               alt={backgrounds[this.state.background].alt} />
-            <Quote>{quotes[this.state.quote].statement}</Quote>
+            <Quote>{quoteList[this.state.quote].statement}</Quote>
           </QuoteBox>
           <CitationBox>
-            <Citation>{quotes[this.state.quote].speaker}</Citation>
+            <Citation>{quoteList[this.state.quote].speaker}</Citation>
           </CitationBox>
         </Polaroid>
         <NewButton onClick={setQuote} >New Quote</NewButton>
