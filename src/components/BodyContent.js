@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { black, charcoal, darkgray, gray, lightgray } from './Colors';
+import { black, charcoal, darkgray, gray, lightgray } from '../common/Colors';
 import beachBackground from '../common/images/beachBackground.jpeg';
 import archBackground from '../common/images/archBackground.jpg';
 import mountainLakeBackground from '../common/images/mountainLakeBackground.jpg';
 import NewButton from './NewButton';
-import quoteList from './quoteList';
+import quoteList from '../common/quoteList';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
 const BodyContainer = styled.div`
