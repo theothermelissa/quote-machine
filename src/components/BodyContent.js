@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { black, charcoal, darkgray, gray, lightgray } from './Colors';
-import beachBackground from '../images/beachBackground.jpeg';
-import archBackground from '../images/archBackground.jpg';
-import mountainLakeBackground from '../images/mountainLakeBackground.jpg';
+import beachBackground from '../common/images/beachBackground.jpeg';
+import archBackground from '../common/images/archBackground.jpg';
+import mountainLakeBackground from '../common/images/mountainLakeBackground.jpg';
 import NewButton from './NewButton';
 import quoteList from './quoteList';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
