@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { black, charcoal, darkgray, gray, lightgray } from '../common/Colors';
-import beachBackground from '../common/images/beachBackground.jpeg';
-import archBackground from '../common/images/archBackground.jpg';
-import mountainLakeBackground from '../common/images/mountainLakeBackground.jpg';
 import NewButton from './NewButton';
 import quoteList from '../common/quoteList';
+import backgrounds from '../common/backgrounds';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
 const BodyContainer = styled.div`
@@ -22,37 +20,16 @@ const Polaroid = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: content-box;
   width: 250px;
   height: 292;
   padding: 5px 5px 5px 5px;
-  margin: 0px 0px 50px 0px;
+  margin: 0px;
   background-color: white;
   box-shadow: 7px 5px 5px;
   `;
-  
-const backgrounds = [
-  {
-    image: beachBackground,
-    alt: "Beach"},
-  {
-    image: archBackground,
-    alt: "Arch"
-  },
-  {
-    image: mountainLakeBackground,
-    alt: "Mountain Lake"
-  },
-];
 
-// const icons = [
-//   {
-//     twitter: 
-//   }
-// ]
-
-
-
-const QuoteBox = styled.div`
+const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -71,7 +48,7 @@ const Quote = styled.p`
   color: white;
   background-color: transparent;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.8em;
   text-shadow: 0px 0px 7px black;
   `;
 
@@ -101,16 +78,14 @@ const Citation = styled.h2`
 
 const ShareBox = styled.div`
   display: flex;
-  flex-flow: row wrap;
-  height: 30px;
-  align-items: flex-start;
-`;
-
-const ShareIcon = styled.img`
-  margin: 0px;
+  /* flex-flow: row wrap; */
+  width: 250px;
+  /* height: 30px; */
+  /* align-items: flex-start; */
+  justify-content: flex-end;
+  margin-top: 1vh;
+  box-sizing: content-box;
   padding: 0px;
-  height: inherit;
-  width: auto;
 `;
 
 class BodyContent extends Component {
@@ -125,28 +100,27 @@ class BodyContent extends Component {
   render() {
     const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
     const randomQuote = () => Math.floor(Math.random() * quoteList.length);
-    console.log("RandomBackground: ", randomBackground());
+    // console.log("RandomBackground: ", randomBackground());
     const setBackground = () => this.setState({background: randomBackground()});
     const setQuote = () => this.setState({quote: randomQuote()});
+    const tweetableQuote = quoteList[this.state.quote].statement + " " + quoteList[this.state.quote].speaker;
     return (
       <BodyContainer>
-        <ShareBox>
-          <ShareIcon />
-        </ShareBox>
-        <Polaroid>
-          <QuoteBox>
+        <Polaroid id="quote-box">
+          <TextBox>
             <BackgroundImage 
               {...this.state} 
               src={backgrounds[this.state.background].image} 
               alt={backgrounds[this.state.background].alt} />
-            <Quote>{quoteList[this.state.quote].statement}</Quote>
-          </QuoteBox>
+            <Quote id="text">{quoteList[this.state.quote].statement}</Quote>
+          </TextBox>
           <CitationBox>
-            <Citation>{quoteList[this.state.quote].speaker}</Citation>
+            <Citation id="author">{quoteList[this.state.quote].speaker}</Citation>
           </CitationBox>
         </Polaroid>
-        <NewButton onClick={setQuote} >New Quote</NewButton>
+        <NewButton id="new-quote" onClick={setQuote} >New Quote</NewButton>
         <NewButton onClick={setBackground} >New Background</NewButton>
+        <a href="twitter.com/intent/tweet" className="twitter-share-button" data-size="large" data-text={tweetableQuote} data-url="invalid" data-via="quotaquote" data-show-count="false">Tweet</a>
       </BodyContainer>
     )
   }

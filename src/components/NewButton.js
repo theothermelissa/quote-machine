@@ -6,7 +6,7 @@ const Button = styled.button`
   background-color: slategray;
   width: 250px;
   height: 30px;
-  margin-top: 3px;
+  margin-top: 1vh;
   color: white;
   border-color: black;
   text-transform: uppercase;
