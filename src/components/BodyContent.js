@@ -4,6 +4,7 @@ import { black, charcoal, darkgray, gray, lightgray } from '../common/Colors';
 import NewButton from './NewButton';
 import quoteList from '../common/quoteList';
 import backgrounds from '../common/backgrounds';
+// import { QuoteText, QuoteAuthor, TweetableQuote } from './Quote';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
 const BodyContainer = styled.div`
@@ -29,12 +30,12 @@ const Polaroid = styled.div`
   box-shadow: 7px 5px 5px;
   `;
 
-const TextBox = styled.div`
+const ImageBox = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   position: relative;
   width: inherit;
   height: 240px;
@@ -48,7 +49,7 @@ const Quote = styled.p`
   color: white;
   background-color: transparent;
   font-weight: bold;
-  font-size: 1.8em;
+  font-size: 1.2em;
   text-shadow: 0px 0px 7px black;
   `;
 
@@ -76,51 +77,84 @@ const Citation = styled.h2`
   color: ${darkgray};
   `;
 
-const ShareBox = styled.div`
-  display: flex;
-  /* flex-flow: row wrap; */
-  width: 250px;
-  /* height: 30px; */
-  /* align-items: flex-start; */
-  justify-content: flex-end;
-  margin-top: 1vh;
-  box-sizing: content-box;
-  padding: 0px;
-`;
+// const ShareBox = styled.div`
+//   display: flex;
+//   /* flex-flow: row wrap; */
+//   width: 250px;
+//   /* height: 30px; */
+//   /* align-items: flex-start; */
+//   justify-content: flex-end;
+//   margin-top: 1vh;
+//   box-sizing: content-box;
+//   padding: 0px;
+// `;
 
 class BodyContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quote: 1,
-      background: 2
+      quote: 6,
+      background: 2,
+      tweet: "Damn the torpedoes, full speed ahead. --Whatsisname"
     };
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     prevState.quote !== this.state.quote
+  //   ) {
+  //     var toTweet = TweetableQuote(this.state.quote)
+  //   }
+  // }
+
   render() {
+    const QuoteText = (quote) => quoteList[quote].statement;
+    const QuoteAuthor = (quote) => quoteList[quote].speaker;
     const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
     const randomQuote = () => Math.floor(Math.random() * quoteList.length);
-    // console.log("RandomBackground: ", randomBackground());
-    const setBackground = () => this.setState({background: randomBackground()});
-    const setQuote = () => this.setState({quote: randomQuote()});
-    const tweetableQuote = quoteList[this.state.quote].statement + " " + quoteList[this.state.quote].speaker;
+
+    const setTweet = (quote) => {
+      console.log("Setting Tweet");
+      const newTweet = QuoteText(quote) + " " + QuoteAuthor(quote);
+      this.setState({tweet: newTweet});
+    }
+    const setBackground = () => {
+      this.setState({background: randomBackground()});
+    };
+    const setQuote = () => {
+      console.log("Setting Quote");
+      const newQuote = randomQuote();
+      this.setState({quote: newQuote, tweet: setTweet(newQuote)});
+    };
+
+    
+
     return (
       <BodyContainer>
         <Polaroid id="quote-box">
-          <TextBox>
+          <ImageBox>
             <BackgroundImage 
               {...this.state} 
               src={backgrounds[this.state.background].image} 
               alt={backgrounds[this.state.background].alt} />
-            <Quote id="text">{quoteList[this.state.quote].statement}</Quote>
-          </TextBox>
+            <Quote id="text">{QuoteText(this.state.quote)}</Quote>
+          </ImageBox>
           <CitationBox>
-            <Citation id="author">{quoteList[this.state.quote].speaker}</Citation>
+            <Citation id="author">{QuoteAuthor(this.state.quote)}</Citation>
           </CitationBox>
         </Polaroid>
-        <NewButton id="new-quote" onClick={setQuote} >New Quote</NewButton>
-        <NewButton onClick={setBackground} >New Background</NewButton>
-        <a href="twitter.com/intent/tweet" className="twitter-share-button" data-size="large" data-text={tweetableQuote} data-url="invalid" data-via="quotaquote" data-show-count="false">Tweet</a>
+        <NewButton id="new-quote" onClick={setQuote}>New Quote</NewButton>
+        <NewButton onClick={setBackground}>New Background</NewButton>
+        <a 
+          href="twitter.com/intent/tweet" 
+          className="twitter-share-button" 
+          data-text={this.state.tweet} 
+          data-size="large" 
+          data-url="invalid" 
+          data-via="quotaquote" 
+          data-show-count="false">
+            Tweet
+        </a>
       </BodyContainer>
     )
   }

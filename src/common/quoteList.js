@@ -25,7 +25,7 @@ const quoteList = [
   },
   {
     statement: "A bank is a place that will lend you money if you can prove that you don’t need it.",
-    speaker: "--"
+    speaker: "--Bob Hope"
   },
   {
     statement: "As long as people will accept crap, it will be financially profitable to dispense it.",
