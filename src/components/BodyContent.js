@@ -4,6 +4,7 @@ import { black, charcoal, darkgray, gray, lightgray } from '../common/Colors';
 import NewButton from './NewButton';
 import quoteList from '../common/quoteList';
 import backgrounds from '../common/backgrounds';
+// import TweetButton from './TweetButton';
 // import { QuoteText, QuoteAuthor, TweetableQuote } from './Quote';
 // import { FontAwesomeIcon } from '@fortawesome/react-fonawesome';
 
@@ -43,6 +44,23 @@ const ImageBox = styled.div`
   padding: 0px;
   overflow: hidden;
   `;
+
+const QuoteBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* align-self: center; */
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 240px;
+  margin: 0;
+  padding: 15px;
+  overflow: hidden;
+`;
 
 const Quote = styled.p`
   position: absolute;
@@ -108,23 +126,25 @@ class BodyContent extends Component {
   // }
 
   render() {
-    const QuoteText = (quote) => quoteList[quote].statement;
-    const QuoteAuthor = (quote) => quoteList[quote].speaker;
+    let QuoteText = () => quoteList[this.state.quote].statement;
+    let QuoteAuthor = () => quoteList[this.state.quote].speaker;
+    let TweetableQuote = () => QuoteText() + " " + QuoteAuthor();
     const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
     const randomQuote = () => Math.floor(Math.random() * quoteList.length);
 
-    const setTweet = (quote) => {
-      console.log("Setting Tweet");
-      const newTweet = QuoteText(quote) + " " + QuoteAuthor(quote);
-      this.setState({tweet: newTweet});
-    }
+    // const setTweet = (quote) => {
+    //   console.log("Setting Tweet");
+    //   const newTweet = QuoteText(quote) + " " + QuoteAuthor(quote);
+    //   this.setState({tweet: newTweet});
+    // }
     const setBackground = () => {
       this.setState({background: randomBackground()});
     };
     const setQuote = () => {
       console.log("Setting Quote");
       const newQuote = randomQuote();
-      this.setState({quote: newQuote, tweet: setTweet(newQuote)});
+      this.setState({quote: newQuote});
+      this.forceUpdate();
     };
 
     
@@ -137,7 +157,9 @@ class BodyContent extends Component {
               {...this.state} 
               src={backgrounds[this.state.background].image} 
               alt={backgrounds[this.state.background].alt} />
-            <Quote id="text">{QuoteText(this.state.quote)}</Quote>
+            <QuoteBox>
+              <Quote id="text">{QuoteText(this.state.quote)}</Quote>
+            </QuoteBox>
           </ImageBox>
           <CitationBox>
             <Citation id="author">{QuoteAuthor(this.state.quote)}</Citation>
@@ -146,15 +168,15 @@ class BodyContent extends Component {
         <NewButton id="new-quote" onClick={setQuote}>New Quote</NewButton>
         <NewButton onClick={setBackground}>New Background</NewButton>
         <a 
-          href="twitter.com/intent/tweet" 
-          className="twitter-share-button" 
-          data-text={this.state.tweet} 
-          data-size="large" 
-          data-url="invalid" 
-          data-via="quotaquote" 
-          data-show-count="false">
-            Tweet
-        </a>
+        href="twitter.com/intent/tweet" 
+        className="twitter-share-button" 
+        data-text={TweetableQuote()} 
+        data-size="large" 
+        data-url="invalid" 
+        data-via="quotaquote" 
+        data-show-count="false">
+          Tweet
+      </a>
       </BodyContainer>
     )
   }

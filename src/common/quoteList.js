@@ -1,7 +1,7 @@
 const quoteList = [
   {
     statement: "I want it all, and I want it now.",
-    speaker: "--Everyone"
+    speaker: "--Queen"
   },
   {
     statement: "Potato potato potato potato",
@@ -190,6 +190,10 @@ const quoteList = [
   {
     statement: "You’ve got to be very careful if you don’t know where you are going, because you might not get there.",
     speaker: "--Yogi Berra"
+  },
+  {
+    statement: "You can't always get what you want.",
+    speaker: "--The Rolling Stones"
   },
 ];
 

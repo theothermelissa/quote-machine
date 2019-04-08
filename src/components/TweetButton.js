@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import quoteList from '../common/quoteList';
+// import Tweet from './Tweet';
 
 class TweetButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quoteText: quoteList[this.props.quote].statement,
-      quoteAuthor: quoteList[quote].speaker,
-      // tweet: "Damn the torpedoes, full speed ahead. --Whatsisname"
-    };
+      quote: this.props.quote
+    }
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -20,16 +19,21 @@ class TweetButton extends Component {
   // }
 
   render() {
-    const setTweet = () => {
-      console.log("Setting Tweet");
-      const newTweet = this.state.quoteText + " " + this.state.quoteAuthor;
-    }
+    // let newTweet = "";
+    // const setTweet = () => {
+    //   console.log("Setting Tweet");
+    //   newTweet = this.state.quoteText + " " + this.state.quoteAuthor;
+    //   console.log("New Tweet: ", newTweet);
+    // }
+    let QuoteText = () => quoteList[this.state.quote].statement;
+    let QuoteAuthor = () => quoteList[this.state.quote].speaker;
+    let TweetableQuote = () => QuoteText() + " " + QuoteAuthor();
 
     return (
       <a 
         href="twitter.com/intent/tweet" 
         className="twitter-share-button" 
-        data-text={setTweet()} 
+        data-text={TweetableQuote()} 
         data-size="large" 
         data-url="invalid" 
         data-via="quotaquote" 
