@@ -185,7 +185,7 @@ const quoteList = [
   },
   {
     statement: "I don’t want to achieve immortality through my work. I want to achieve it through not dying.",
-    speaker: "--"
+    speaker: "--Woody Allen"
   },
   {
     statement: "You’ve got to be very careful if you don’t know where you are going, because you might not get there.",

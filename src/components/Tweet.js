@@ -20,7 +20,8 @@ class Tweet extends Component {
     // }
 
     return (
-      <TweetableQuote quote={this.state.quote} />
+      // <TweetableQuote quote={this.state.quote} />
+      <div />
     )
   }
 };

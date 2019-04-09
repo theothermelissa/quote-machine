@@ -68,7 +68,8 @@ const Quote = styled.p`
   background-color: transparent;
   font-weight: bold;
   font-size: 1.2em;
-  text-shadow: 0px 0px 7px black;
+  text-shadow: 0px 0px 10px black;
+  text-transform: uppercase;
   `;
 
 const BackgroundImage = styled.img`
@@ -95,42 +96,48 @@ const Citation = styled.h2`
   color: ${darkgray};
   `;
 
-// const ShareBox = styled.div`
-//   display: flex;
-//   /* flex-flow: row wrap; */
-//   width: 250px;
-//   /* height: 30px; */
-//   /* align-items: flex-start; */
-//   justify-content: flex-end;
-//   margin-top: 1vh;
-//   box-sizing: content-box;
-//   padding: 0px;
-// `;
+const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
+const randomQuote = () => Math.floor(Math.random() * quoteList.length);
 
 class BodyContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quote: 6,
+      quote: randomQuote(),
       background: 2,
-      tweet: "Damn the torpedoes, full speed ahead. --Whatsisname"
+      tweet: true
     };
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     prevState.quote !== this.state.quote
-  //   ) {
-  //     var toTweet = TweetableQuote(this.state.quote)
-  //   }
-  // }
-
+  
   render() {
     let QuoteText = () => quoteList[this.state.quote].statement;
     let QuoteAuthor = () => quoteList[this.state.quote].speaker;
-    let TweetableQuote = () => QuoteText() + " " + QuoteAuthor();
-    const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
-    const randomQuote = () => Math.floor(Math.random() * quoteList.length);
+    let TweetableQuote = () => {
+      return(
+        QuoteText() + " " + QuoteAuthor()
+      );
+    };
+
+    const createTweetHTML = () => {
+      // console.log("TweetableQuote: ", TweetableQuote());
+      return `<a 
+      href="https://twitter.com/share?ref_src=twsrc%5Etfw" 
+      class="twitter-share-button" 
+      data-text="` + TweetableQuote() + 
+      `" data-via="quotaquote" 
+      data-url="invalid" 
+      data-show-count="false">
+      Tweet
+      </a>`;
+      // return 'something'
+    };
+
+    const insertTweetHTML = () => {
+      // console.log("TweetHTML: ", createTweetHTML())
+      return {
+        __html: createTweetHTML()
+      }
+    }; 
 
     // const setTweet = (quote) => {
     //   console.log("Setting Tweet");
@@ -140,14 +147,18 @@ class BodyContent extends Component {
     const setBackground = () => {
       this.setState({background: randomBackground()});
     };
+
     const setQuote = () => {
       console.log("Setting Quote");
       const newQuote = randomQuote();
-      this.setState({quote: newQuote});
-      this.forceUpdate();
+      // var elem = document.getElementById("tweet-button");
+      // elem.remove();
+      this.setState({quote: newQuote, tweet: true});
+      window.twttr.widgets.load();
     };
 
-    
+
+    const tweetElement = this.state.tweet ? <div id="tweet-button" dangerouslySetInnerHTML={insertTweetHTML()} /> : null;
 
     return (
       <BodyContainer>
@@ -167,16 +178,9 @@ class BodyContent extends Component {
         </Polaroid>
         <NewButton id="new-quote" onClick={setQuote}>New Quote</NewButton>
         <NewButton onClick={setBackground}>New Background</NewButton>
-        <a 
-        href="twitter.com/intent/tweet" 
-        className="twitter-share-button" 
-        data-text={TweetableQuote()} 
-        data-size="large" 
-        data-url="invalid" 
-        data-via="quotaquote" 
-        data-show-count="false">
-          Tweet
-      </a>
+        {/* <div id="tweet-button" dangerouslySetInnerHTML={insertTweetHTML()} /> */}
+        {tweetElement}
+
       </BodyContainer>
     )
   }
