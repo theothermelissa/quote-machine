@@ -20,9 +20,10 @@
 }
 
 .twitter-share-button {
-  box-shadow: 7px 5px 5px;
+  /* box-shadow: 7px 5px 5px; */
   margin: 1vh 0px 0px 0px;
   box-sizing: content-box;
+  color: black;
 }
 
 .App-link {

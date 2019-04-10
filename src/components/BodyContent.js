@@ -35,8 +35,8 @@ const ImageBox = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   position: relative;
   width: inherit;
   height: 240px;
@@ -45,7 +45,7 @@ const ImageBox = styled.div`
   overflow: hidden;
   `;
 
-const QuoteBox = styled.div`
+const QuoteHolder = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -53,9 +53,7 @@ const QuoteBox = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 250px;
+  width: 80%;
   height: 240px;
   margin: 0;
   padding: 15px;
@@ -98,89 +96,70 @@ const Citation = styled.h2`
 
 const randomBackground = () => Math.floor(Math.random() * backgrounds.length);
 const randomQuote = () => Math.floor(Math.random() * quoteList.length);
+const quoteText = (quote) => quoteList[quote].statement;
+const quoteAuthor = (quote) => quoteList[quote].speaker;
+const quoteTweet = (quote) => quoteText(quote) + " " + quoteAuthor;
+
 
 class BodyContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quote: randomQuote(),
-      background: 2,
-      tweet: true
+      background: randomBackground(),
     };
   }
   
   render() {
-    let QuoteText = () => quoteList[this.state.quote].statement;
-    let QuoteAuthor = () => quoteList[this.state.quote].speaker;
-    let TweetableQuote = () => {
-      return(
-        QuoteText() + " " + QuoteAuthor()
-      );
-    };
-
-    const createTweetHTML = () => {
+    const insertTweetHTML = () => {
       // console.log("TweetableQuote: ", TweetableQuote());
-      return `<a 
-      href="https://twitter.com/share?ref_src=twsrc%5Etfw" 
-      class="twitter-share-button" 
-      data-text="` + TweetableQuote() + 
+      return `<a
+      id="tweet-quote"
+      href="https://twitter.com/intent/tweet" 
+      className="twitter-share-button" 
+      data-text="` + quoteTweet(this.state.quote) + 
       `" data-via="quotaquote" 
       data-url="invalid" 
       data-show-count="false">
       Tweet
       </a>`;
-      // return 'something'
     };
 
-    const insertTweetHTML = () => {
-      // console.log("TweetHTML: ", createTweetHTML())
-      return {
-        __html: createTweetHTML()
-      }
-    }; 
-
-    // const setTweet = (quote) => {
-    //   console.log("Setting Tweet");
-    //   const newTweet = QuoteText(quote) + " " + QuoteAuthor(quote);
-    //   this.setState({tweet: newTweet});
-    // }
+    const logTweet = () => console.log("This.State.Tweet: ", this.state.tweet);
     const setBackground = () => {
       this.setState({background: randomBackground()});
     };
-
     const setQuote = () => {
       console.log("Setting Quote");
       const newQuote = randomQuote();
-      // var elem = document.getElementById("tweet-button");
-      // elem.remove();
-      this.setState({quote: newQuote, tweet: true});
-      window.twttr.widgets.load();
+      this.setState({quote: newQuote});
+    };
+    
+    const setTweet = () => {
+      console.log("Setting Tweet");
+      let newTweet = quoteTweet(this.state.quote)
+      console.log("New Tweet: ", newTweet);
     };
 
-
-    const tweetElement = this.state.tweet ? <div id="tweet-button" dangerouslySetInnerHTML={insertTweetHTML()} /> : null;
-
     return (
-      <BodyContainer>
-        <Polaroid id="quote-box">
+      <BodyContainer id="quote-box">
+        <Polaroid>
           <ImageBox>
             <BackgroundImage 
               {...this.state} 
               src={backgrounds[this.state.background].image} 
               alt={backgrounds[this.state.background].alt} />
-            <QuoteBox>
-              <Quote id="text">{QuoteText(this.state.quote)}</Quote>
-            </QuoteBox>
+            <QuoteHolder>
+              <Quote id="text">{quoteText(this.state.quote)}</Quote>
+            </QuoteHolder>
           </ImageBox>
           <CitationBox>
-            <Citation id="author">{QuoteAuthor(this.state.quote)}</Citation>
+            <Citation id="author">{quoteAuthor(this.state.quote)}</Citation>
           </CitationBox>
         </Polaroid>
         <NewButton id="new-quote" onClick={setQuote}>New Quote</NewButton>
         <NewButton onClick={setBackground}>New Background</NewButton>
-        {/* <div id="tweet-button" dangerouslySetInnerHTML={insertTweetHTML()} /> */}
-        {tweetElement}
-
+        <div dangerouslySetInnerHTML={{__html: insertTweetHTML()}} />
       </BodyContainer>
     )
   }
